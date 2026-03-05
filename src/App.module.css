@@ -1,0 +1,26 @@
+.mainPanel {
+    display: flex;
+    flex-direction: column;
+
+    height: 100vh;
+}
+
+.musicPanel {
+    display: flex;
+    flex-direction: row;
+
+    flex: 7;
+    min-height: 0;
+    
+    background-color: aqua;
+}
+
+.outputPanel {
+    display: flex;
+    flex-direction: row;
+
+    flex: 3;
+    min-height: 0;
+    
+    background-color: burlywood;
+}

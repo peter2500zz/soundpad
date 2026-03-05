@@ -1,0 +1,19 @@
+.musicList {
+    background-color: greenyellow;
+    flex: 6;
+
+    /* 给子元素设定 flex */
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+}
+
+table {
+    background-color: lightsalmon;
+}
+
+thead th {
+    position: sticky;
+    top: 2px;
+    background-color: #f5f5f5;
+}
