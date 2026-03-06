@@ -5,7 +5,7 @@
     /* 给子元素设定 flex */
     display: flex;
     flex-direction: column;
-    overflow-y: auto;
+    overflow-y: scroll;
 }
 
 table {

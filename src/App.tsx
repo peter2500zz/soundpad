@@ -4,7 +4,6 @@
 import Setting from "./components/Setting";
 import MusicList from "./components/MusicList";
 import ProgressBar from "./components/ProgressBar";
-import LogOutput from "./components/LogOutput";
 import style from "./App.module.css";
 
 function App() {
@@ -17,7 +16,6 @@ function App() {
             </div>
             <div className={style.outputPanel}>
                 <ProgressBar />
-                <LogOutput />
             </div>
         </main>
     );

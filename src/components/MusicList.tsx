@@ -1,3 +1,4 @@
+import { convertFileSrc } from "@tauri-apps/api/core";
 import style from "./MusicList.module.css";
 
 function MusicList() {
@@ -12,7 +13,13 @@ function MusicList() {
                     </tr>
                 </thead>
                 <tbody>
-                    <tr><td>朝仓彩玲</td><td>23</td><td>东京</td></tr>
+                    <tr onDoubleClick={() => {
+                        console.time('myFunctionTime');
+                        const fileUrl = convertFileSrc("D:\\Files\\Rust\\cmd-soundpad\\hum.ogg");
+                        let file = new Audio(fileUrl);
+                        console.timeEnd('myFunctionTime');
+                        file.play();
+                    }}><td>朝仓彩玲</td><td>23</td><td>东京</td></tr>
                     <tr><td>小明</td><td>30</td><td>北京</td></tr>
                     <tr><td>小红</td><td>25</td><td>上海</td></tr>
                     <tr><td>小刚</td><td>28</td><td>广州</td></tr>
