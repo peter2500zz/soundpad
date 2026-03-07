@@ -1,7 +1,7 @@
-import { convertFileSrc } from "@tauri-apps/api/core";
+import { convertFileSrc, invoke } from "@tauri-apps/api/core";
 import style from "./MusicList.module.css";
 
-function MusicList({ set_playing_audio }: { set_playing_audio: React.Dispatch<React.SetStateAction<Array<HTMLAudioElement>>> }) {
+function MusicList({ setPlayingAudio }: { setPlayingAudio: React.Dispatch<React.SetStateAction<Array<HTMLAudioElement>>> }) {
     return (
         <div className={style.musicList}>
             <table>
@@ -14,19 +14,32 @@ function MusicList({ set_playing_audio }: { set_playing_audio: React.Dispatch<Re
                 </thead>
                 <tbody>
                     <tr onClick={() => {
-                        console.time('myFunctionTime');
-                        const fileUrl = convertFileSrc("assets/hum.ogg");
-                        let file = new Audio(fileUrl);
-                        set_playing_audio((prev) => [...prev, file]);
-                        console.timeEnd('myFunctionTime');
-                        file.play();
-                        // delete when audio ended
+                        console.time("myFunctionTime");
+
+                        const fileUrl = convertFileSrc("soundpad/ge2ebar.mp3");
+                        const file = new Audio(fileUrl);
+
+                        file.onerror = () => {
+                            console.error("audio not found:", fileUrl);
+                        };
+
                         file.onended = () => {
-                            set_playing_audio((prev) => prev.filter((audio) => audio !== file));
-                        }
+                            setPlayingAudio((prev) => prev.filter((audio) => audio !== file));
+                        };
+
+                        file.oncanplaythrough = () => {
+                            setPlayingAudio((prev) => [...prev, file]);
+                            file.play();
+                        };
+
+                        console.timeEnd("myFunctionTime");
 
                     }}><td>朝仓彩玲</td><td>23</td><td>东京</td></tr>
-                    <tr><td>小明</td><td>30</td><td>北京</td></tr>
+                    <tr onClick={
+                        () => {
+                            invoke("send_test_msg", { msg: "soundpad/ge2ebar.mp3" })
+                        }
+                    }><td>小明</td><td>30</td><td>北京</td></tr>
                     <tr><td>小红</td><td>25</td><td>上海</td></tr>
                     <tr><td>小刚</td><td>28</td><td>广州</td></tr>
                     <tr><td>小李</td><td>22</td><td>深圳</td></tr>

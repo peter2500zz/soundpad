@@ -6,20 +6,22 @@ import MusicList from "./components/MusicList";
 import ProgressBar from "./components/ProgressBar";
 import style from "./App.module.css";
 import { useState } from "react";
+import Msg from "./components/Msg";
 
 function App() {
-    const [playing_audio, set_playing_audio] = useState<HTMLAudioElement[]>([]);
+    const [playingAudio, setPlayingAudio] = useState<HTMLAudioElement[]>([]);
 
-    console.log(playing_audio);
+    console.log(playingAudio);
 
     return (
         <main className={style.mainPanel}>
+            <Msg />
             <div className={style.musicPanel}>
                 <Setting />
-                <MusicList set_playing_audio={set_playing_audio} />
+                <MusicList setPlayingAudio={setPlayingAudio} />
             </div>
             <div className={style.outputPanel}>
-                <ProgressBar playing_audio={playing_audio} />
+                <ProgressBar playingAudio={playingAudio} />
             </div>
         </main>
     );

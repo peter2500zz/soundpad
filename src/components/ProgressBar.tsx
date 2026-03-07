@@ -1,10 +1,25 @@
 import { useEffect, useState } from "react";
 import style from "./ProgressBar.module.css";
 
-function ProgressBar({ playing_audio }: { playing_audio: HTMLAudioElement[] }) {
+function formatDuration(totalSeconds: number): string {
+    const seconds = Math.floor(totalSeconds % 60);
+    const minutes = Math.floor((totalSeconds / 60) % 60);
+    const hours = Math.floor(totalSeconds / 3600);
+
+    const mm = String(minutes).padStart(2, "0");
+    const ss = String(seconds).padStart(2, "0");
+
+    if (hours > 0) {
+        return `${hours}:${mm}:${ss}`;
+    }
+
+    return `${mm}:${ss}`;
+}
+
+function ProgressBar({ playingAudio }: { playingAudio: HTMLAudioElement[] }) {
     return (
         <div className={style.progressBarArea}>
-            {playing_audio.map((audio) => (
+            {playingAudio.map((audio) => (
                 <AudioProgress key={audio.src} audio={audio} />
             ))}
         </div>
@@ -41,7 +56,7 @@ function AudioProgress({ audio }: { audio: HTMLAudioElement }) {
         <div className={style.progressBar}>
             <label htmlFor={`prog-${audio.src}`}>播放进度</label>
             <progress id={`prog-${audio.src}`} value={progress} max="100"></progress>
-            <span>{Math.round(progress)}%</span>
+            <span>{formatDuration(audio.currentTime)} / {formatDuration(audio.duration || 0)}</span>
         </div>
     );
 }

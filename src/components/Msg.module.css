@@ -1,0 +1,41 @@
+.MsgBackground {
+    position: fixed;
+
+    inset: 0;
+
+    background-color: rgba(0,0,0,0.5);
+
+    z-index: 9999;
+}
+
+.MsgBox {
+    display: flex;
+    flex-direction: column;
+
+    position: absolute;
+    inset: 10% 25%;
+
+    padding: 2.5%;
+
+    background-color: white;
+}
+
+.MsgContent {
+    flex: 8;
+
+    background-color: lightgray;
+}
+
+.MsgBtnBox {
+    flex: 2;
+
+    position: relative;
+
+    background-color: orchid;
+}
+
+.MsgBtn {
+    position: absolute;
+
+    inset: 30% 30%;
+}
