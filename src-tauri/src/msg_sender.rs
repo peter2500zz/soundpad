@@ -22,5 +22,5 @@ pub fn send_msg(app: &AppHandle, msg: &str, level: MsgLevel) {
 
     println!("发送消息: {:?}", msg);
 
-    app.emit("", msg).unwrap();
+    app.emit("global-msg", msg).unwrap();
 }

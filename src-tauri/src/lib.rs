@@ -1,9 +1,11 @@
-mod folder_watcher;
 mod msg_sender;
+mod file;
 
 use std::thread;
 
 use tauri::AppHandle;
+
+// use crate::file::get_audio;
 
 // Learn more about Tauri commands at https://tauri.app/develop/calling-rust/
 #[tauri::command]
@@ -22,17 +24,14 @@ pub fn run() {
         .plugin(tauri_plugin_opener::init())
         .invoke_handler(tauri::generate_handler![greet])
         .invoke_handler(tauri::generate_handler![send_test_msg])
-
+        .invoke_handler(tauri::generate_handler![file::get_audio])
         .setup(|app| {
             let app_handle = AppHandle::clone(app.handle());
 
-            thread::spawn(move || {
-
-            });
+            thread::spawn(move || {});
 
             Ok(())
         })
-
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
 }

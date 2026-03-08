@@ -1,7 +1,10 @@
 use notify::{RecommendedWatcher, RecursiveMode, Result, Watcher};
-use std::{path::{Path, PathBuf}, sync::LazyLock};
+use std::{
+    path::{Path, PathBuf},
+    sync::LazyLock,
+};
 
-static MUSIC_FOLDER: &'static str = "soundpad";
+use crate::file::MUSIC_FOLDER;
 
 #[test]
 fn watch() -> Result<()> {

@@ -1,15 +1,27 @@
 import { convertFileSrc, invoke } from "@tauri-apps/api/core";
 import style from "./MusicList.module.css";
 
-function MusicList({ setPlayingAudio }: { setPlayingAudio: React.Dispatch<React.SetStateAction<Array<HTMLAudioElement>>> }) {
+
+type Audio = {
+    path: string;
+    duration: number;
+}
+
+function MusicList(
+    { 
+        setPlayingAudio 
+    }: { 
+        setPlayingAudio: React.Dispatch<React.SetStateAction<Array<HTMLAudioElement>>> 
+    }
+) {
     return (
         <div className={style.musicList}>
             <table>
                 <thead>
                     <tr>
-                        <th>姓名</th>
-                        <th>年龄</th>
-                        <th>城市</th>
+                        <th>名称</th>
+                        <th>时长</th>
+                        <th>路径</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -40,7 +52,9 @@ function MusicList({ setPlayingAudio }: { setPlayingAudio: React.Dispatch<React.
                             invoke("send_test_msg", { msg: "soundpad/ge2ebar.mp3" })
                         }
                     }><td>小明</td><td>30</td><td>北京</td></tr>
-                    <tr><td>小红</td><td>25</td><td>上海</td></tr>
+                    <tr onClick={() => {
+                        console.log(invoke<Audio[]>("get_audio"));
+                    }}><td>小红</td><td>25</td><td>上海</td></tr>
                     <tr><td>小刚</td><td>28</td><td>广州</td></tr>
                     <tr><td>小李</td><td>22</td><td>深圳</td></tr>
                     <tr><td>小王</td><td>26</td><td>杭州</td></tr>
