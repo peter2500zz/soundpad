@@ -1,8 +1,6 @@
 mod msg_sender;
 mod file;
 
-use std::thread;
-
 use tauri::AppHandle;
 
 // use crate::file::get_audio;
@@ -28,7 +26,7 @@ pub fn run() {
         .setup(|app| {
             let app_handle = AppHandle::clone(app.handle());
 
-            thread::spawn(move || {});
+            file::watcher::watch(app_handle)?;
 
             Ok(())
         })

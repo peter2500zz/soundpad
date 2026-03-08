@@ -1,4 +1,4 @@
-mod watcher;
+pub mod watcher;
 
 use std::fs;
 
@@ -12,14 +12,15 @@ static MUSIC_FOLDER: &'static str = "soundpad";
 
 #[derive(Serialize, Clone, Debug)]
 pub struct Audio {
+    name: String,
     path: String,
     duration: f64,
 }
 
 #[tauri::command]
 pub async fn get_audio<R: Runtime>(
-    app: tauri::AppHandle<R>,
-    window: tauri::Window<R>,
+    _: tauri::AppHandle<R>,
+    _: tauri::Window<R>,
 ) -> Result<Vec<Audio>, String> {
     let mut audio_list = Vec::new();
 
@@ -80,6 +81,7 @@ fn process_audio(entry: DirEntry) -> Result<Audio> {
 
 
     Ok(Audio {
+        name: entry.file_name().to_string_lossy().to_string(),
         path: entry.path().to_string_lossy().to_string(),
         duration: time.seconds as f64 + time.frac,
     })

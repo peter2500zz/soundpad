@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import style from "./ProgressBar.module.css";
+import { PlayingAudio } from "./MusicList";
 
 function formatDuration(totalSeconds: number): string {
     const seconds = Math.floor(totalSeconds % 60);
@@ -16,17 +17,17 @@ function formatDuration(totalSeconds: number): string {
     return `${mm}:${ss}`;
 }
 
-function ProgressBar({ playingAudio }: { playingAudio: HTMLAudioElement[] }) {
+function ProgressBar({ playingAudio }: { playingAudio: PlayingAudio[] }) {
     return (
         <div className={style.progressBarArea}>
             {playingAudio.map((audio) => (
-                <AudioProgress key={audio.src} audio={audio} />
+                <AudioProgress key={audio.uuid} playingAudio={audio} />
             ))}
         </div>
     )
 }
 
-function AudioProgress({ audio }: { audio: HTMLAudioElement }) {
+function AudioProgress({ playingAudio }: { playingAudio: PlayingAudio }) {
     const [progress, setProgress] = useState(0);
 
     // react 无法感知到 audio.currentTime 的变化
@@ -37,8 +38,8 @@ function AudioProgress({ audio }: { audio: HTMLAudioElement }) {
         // 定义了一个每帧都会被调用的函数，每帧由requestAnimationFrame决定
         // 在下一帧前都会等待，同时react能通过里面的setProg读取到数据改变dom
         const update = () => {
-            if (audio.duration) {
-                setProgress((audio.currentTime / audio.duration) * 100);
+            if (playingAudio.audio.duration) {
+                setProgress((playingAudio.audio.currentTime / playingAudio.audio.duration) * 100);
             }
 
             // 登记下一帧触发此函数
@@ -50,13 +51,13 @@ function AudioProgress({ audio }: { audio: HTMLAudioElement }) {
 
         // 返回闭包，在 audio 改变时取消之前的登记，重新登记
         return () => cancelAnimationFrame(rafId);
-    }, [audio]);  // 标记依赖 audio 
+    }, [playingAudio]);  // 标记依赖 audio 
 
     return (
         <div className={style.progressBar}>
-            <label htmlFor={`prog-${audio.src}`}>播放进度</label>
-            <progress id={`prog-${audio.src}`} value={progress} max="100"></progress>
-            <span>{formatDuration(audio.currentTime)} / {formatDuration(audio.duration || 0)}</span>
+            <label htmlFor={`prog-${playingAudio.uuid}`}>播放进度</label>
+            <progress id={`prog-${playingAudio.uuid}`} value={progress} max="100"></progress>
+            <span>{formatDuration(playingAudio.audio.currentTime)} / {formatDuration(playingAudio.audio.duration || 0)}</span>
         </div>
     );
 }
